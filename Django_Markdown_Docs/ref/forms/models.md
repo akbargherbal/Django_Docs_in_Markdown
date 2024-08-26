@@ -1,0 +1,80 @@
+# Model Form Functions
+
+Model Form API reference. For introductory material about model forms, see the
+[Creating forms from models](../../topics/forms/modelforms.md) topic guide.
+
+<a id="module-django.forms.models"></a>
+
+## `modelform_factory`
+
+### modelform_factory(model, form=ModelForm, fields=None, exclude=None, formfield_callback=None, widgets=None, localized_fields=None, labels=None, help_texts=None, error_messages=None, field_classes=None)
+
+Returns a [`ModelForm`](../../topics/forms/modelforms.md#django.forms.ModelForm) class for the given `model`.
+You can optionally pass a `form` argument to use as a starting point for
+constructing the `ModelForm`.
+
+`fields` is an optional list of field names. If provided, only the named
+fields will be included in the returned fields.
+
+`exclude` is an optional list of field names. If provided, the named
+fields will be excluded from the returned fields, even if they are listed
+in the `fields` argument.
+
+`formfield_callback` is a callable that takes a model field and returns
+a form field.
+
+`widgets` is a dictionary of model field names mapped to a widget.
+
+`localized_fields` is a list of names of fields which should be localized.
+
+`labels` is a dictionary of model field names mapped to a label.
+
+`help_texts` is a dictionary of model field names mapped to a help text.
+
+`error_messages` is a dictionary of model field names mapped to a
+dictionary of error messages.
+
+`field_classes` is a dictionary of model field names mapped to a form
+field class.
+
+See [ModelForm factory function](../../topics/forms/modelforms.md#modelforms-factory) for example usage.
+
+You must provide the list of fields explicitly, either via keyword arguments
+`fields` or `exclude`, or the corresponding attributes on the form’s
+inner `Meta` class. See [Selecting the fields to use](../../topics/forms/modelforms.md#modelforms-selecting-fields) for more
+information. Omitting any definition of the fields to use will result in
+an [`ImproperlyConfigured`](../exceptions.md#django.core.exceptions.ImproperlyConfigured) exception.
+
+## `modelformset_factory`
+
+### modelformset_factory(model, form=ModelForm, formfield_callback=None, formset=BaseModelFormSet, extra=1, can_delete=False, can_order=False, max_num=None, fields=None, exclude=None, widgets=None, validate_max=False, localized_fields=None, labels=None, help_texts=None, error_messages=None, min_num=None, validate_min=False, field_classes=None, absolute_max=None, can_delete_extra=True, renderer=None, edit_only=False)
+
+Returns a `FormSet` class for the given `model` class.
+
+Arguments `model`, `form`, `fields`, `exclude`,
+`formfield_callback`, `widgets`, `localized_fields`, `labels`,
+`help_texts`, `error_messages`, and `field_classes` are all passed
+through to [`modelform_factory()`](#django.forms.models.modelform_factory).
+
+Arguments `formset`, `extra`, `can_delete`, `can_order`,
+`max_num`, `validate_max`, `min_num`, `validate_min`,
+`absolute_max`, `can_delete_extra`, and `renderer` are passed
+through to [`formset_factory()`](formsets.md#django.forms.formsets.formset_factory). See
+[formsets](../../topics/forms/formsets.md) for details.
+
+The `edit_only` argument allows [preventing new objects creation](../../topics/forms/modelforms.md#model-formsets-edit-only).
+
+See [Model formsets](../../topics/forms/modelforms.md#model-formsets) for example usage.
+
+## `inlineformset_factory`
+
+### inlineformset_factory(parent_model, model, form=ModelForm, formset=BaseInlineFormSet, fk_name=None, fields=None, exclude=None, extra=3, can_order=False, can_delete=True, max_num=None, formfield_callback=None, widgets=None, validate_max=False, localized_fields=None, labels=None, help_texts=None, error_messages=None, min_num=None, validate_min=False, field_classes=None, absolute_max=None, can_delete_extra=True, renderer=None, edit_only=False)
+
+Returns an `InlineFormSet` using [`modelformset_factory()`](#django.forms.models.modelformset_factory) with
+defaults of `formset=`[`BaseInlineFormSet`](../../topics/forms/modelforms.md#django.forms.models.BaseInlineFormSet),
+`can_delete=True`, and `extra=3`.
+
+If your model has more than one [`ForeignKey`](../models/fields.md#django.db.models.ForeignKey) to
+the `parent_model`, you must specify a `fk_name`.
+
+See [Inline formsets](../../topics/forms/modelforms.md#inline-formsets) for example usage.
